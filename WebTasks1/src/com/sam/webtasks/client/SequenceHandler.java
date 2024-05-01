@@ -272,7 +272,7 @@ public class SequenceHandler {
 				
 				// log data and check that it saves
 				String data = TimeStamp.Now() + ",";
-				data = data + SessionInfo.rewardCode + ",";
+				//data = data + SessionInfo.rewardCode + ",";
 				data = data + SessionInfo.participantID + ",";
 				data = data + SessionInfo.gender + ",";
 				data = data + SessionInfo.age + ",";

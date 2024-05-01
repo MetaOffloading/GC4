@@ -106,9 +106,17 @@ public class Instructions {
 					+ "to the edge at the start of each trial.";
 			break;
 		case 11:
+			/*
 			i = "You have now completed the experiment.<br><br>"
 					+ "Please enter the following completion code on the Mechanical Turk website to claim your "
 					+ "reward:<br><br><b>" + SessionInfo.rewardCode + "</b>"; 
+					*/
+			
+			i = "You have now completed the experiment. "
+					+ "Please click on the link below to complete the experiment and receive payment via Prolific:<br><br>"
+					+ "<b><a href=\"https://app.prolific.com/submissions/complete?cc=C1IVJN00\">"
+ 					+ "CLICK HERE</a></b>";
+			
 			break;
 		}
 
