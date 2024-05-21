@@ -9,6 +9,7 @@ import java.util.Date;
 import com.google.gwt.user.client.Random;
 import com.google.gwt.user.client.Window;
 import com.sam.webtasks.basictools.ClickPage;
+import com.sam.webtasks.basictools.Names;
 
 public class IOtask1InitialiseTrial {
 	public static void Run() {
@@ -60,6 +61,7 @@ public class IOtask1InitialiseTrial {
 		
 		//get number of targets on this trial
 		int nTargets=block.targetList.get(block.currentTrial);
+		IOtask1BlockContext.setNtargets(nTargets);
 		
 		if (nTargets>0) { 
 			//get target positions
@@ -79,19 +81,10 @@ public class IOtask1InitialiseTrial {
 			
 			if (block.thoughtProbe) {
 				for (int i = 0; i < block.thoughtProbeTrials.length; i++) {
-					if (block.thoughtProbeTrials[i]==block.currentTrial+1) {
+					if (block.thoughtProbeTrials[i]==block.currentTrial) {
 						block.probeCircle = 4 + Random.nextInt(4); //probe occurs somewhere between circles 5 and 8
 					}
-				}
-
-				/*
-				for (int i = 0; i < block.thoughtProbeTrials.length; i++) {
-					if (block.currentTrial == block.thoughtProbeTrials[i]) {
-						block.probeCircle = targetSeqPositionsSorted.get(0)-1;
-					}
-				}*/
-				
-				
+				}	
 			}
 			
 			//add additional instructions for targets
@@ -129,6 +122,22 @@ public class IOtask1InitialiseTrial {
 			}
 		}
 		
+		if (block.offloadInstruction) {
+			if (block.offloadConditionList.get(block.currentTrial)==Names.REMINDERS_NOTALLOWED) {
+				instructions = instructions + "<br>You <b>cannot</b> ";
+			} else {
+				instructions = instructions + "<br>You <b>must</b> ";
+			}
+			
+			if (nTargets == 1) {
+				instructions = instructions + "set a reminder";
+			} else {
+				instructions = instructions + "set reminders";
+			}
+			
+			instructions = instructions + " this time.";
+		}
+	
 		//set a timestamp for the presentation of the instructions. we can measure the reading time from this starting point
 		block.instructionStart = new Date();
 

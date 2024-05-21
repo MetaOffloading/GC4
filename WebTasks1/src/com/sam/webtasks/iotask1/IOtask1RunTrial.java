@@ -51,6 +51,10 @@ public class IOtask1RunTrial {
 		// through
 		block.instructionReadingTime = (int) (block.instructionEnd.getTime() - 500 - block.instructionStart.getTime());
 		int nTargets = block.targetList.get(block.currentTrial);
+		
+		int offloadCondition = block.offloadConditionList.get(block.currentTrial);
+		IOtask1BlockContext.setOffloadCondition(offloadCondition);
+		
 
 		String data = block.blockNum + "," + block.currentTrial + "," + nTargets + "," + block.instructionReadingTime;
 		PHP.logData("instructionReadingTime", data, false);
@@ -238,7 +242,7 @@ public class IOtask1RunTrial {
 			circleGroup[c].setX(circleX[c]);
 			circleGroup[c].setY(circleY[c]);
 
-			switch (block.offloadCondition) {
+			switch (offloadCondition) {
 			case Names.REMINDERS_NOTALLOWED:
 				circleGroup[c].setDraggable(false);
 				break;
@@ -397,6 +401,8 @@ public class IOtask1RunTrial {
 					String data = IOtask1BlockContext.getBlockNum() + ",";
 					data = data + IOtask1BlockContext.getTrialNum() + ",";
 					data = data + IOtask1BlockContext.getNCircles() + ",";
+					data = data + IOtask1BlockContext.getNTargets() + ",";
+					data = data + IOtask1BlockContext.getOffloadCondition() + ",";
 					data = data + IOtask1BlockContext.getNextCircle() + ",";
 					data = data + IOtask1BlockContext.getClickedCircle() + ",";
 					data = data + IOtask1BlockContext.getDragStartTimeStamp() + ",";

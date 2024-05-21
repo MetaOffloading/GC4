@@ -21,6 +21,9 @@
 package com.sam.webtasks.client;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 import com.google.gwt.user.client.Random;
 import com.google.gwt.user.client.Window;
@@ -87,8 +90,19 @@ public class SequenceHandler {
 			/***********************************************************************
 			 * The code here defines the main sequence of events in the experiment *
 			 ********************************************************************/		
-			case 1:
-				ClickPage.Run(Instructions.Get(1),  "Next");
+			case 100:
+				//ClickPage.Run(Instructions.Get(1),  "Next");
+				IOtask1Block block = new IOtask1Block();
+				block.nTrials=1;
+				
+				block.targetList.add(3);
+
+				block.offloadConditionList.add(Names.REMINDERS_MANDATORY_ANYCIRCLE);
+
+				block.offloadInstruction = true;
+				
+				block.Run();
+				
 				break;
 			case 2:
 				IOtask1Block block1 = new IOtask1Block();
@@ -114,21 +128,13 @@ public class SequenceHandler {
 				}
 				break;
 			case 6:
-				if (ExtraNames.nTargets==3) {
-					ClickPage.Run(Instructions.Get(3),  "Next");
-				} else {
-					SequenceHandler.Next();
-				}
+				ClickPage.Run(Instructions.Get(3),  "Next");
 				break;
 			case 7:
-				if (ExtraNames.nTargets==3) {
-					IOtask1Block block3 = new IOtask1Block();
-					block3.blockNum=-3;
-					block3.nTargets=3;
-					block3.Run();
-				} else {
-					SequenceHandler.Next();
-				}
+				IOtask1Block block3 = new IOtask1Block();
+				block3.blockNum=-3;
+				block3.nTargets=3;
+				block3.Run();
 				break;
 			case 8:
 				ClickPage.Run(Instructions.Get(4), "Click for an example");
@@ -154,120 +160,126 @@ public class SequenceHandler {
 				ClickPage.Run(Instructions.Get(6),  "Next");
 				break;
 			case 13:
-				if (Counterbalance.getFactorLevel("offloadOrder")==ExtraNames.EXTERNAL_FIRST) {
-					ClickPage.Run(Instructions.Get(7),  "Next");
-				} else {
-					SequenceHandler.Next();
-				}
+				ClickPage.Run(Instructions.Get(7),  "Next");
 				break;
 			case 14:
-				if (Counterbalance.getFactorLevel("offloadOrder")==ExtraNames.EXTERNAL_FIRST) {
-					IOtask1Block block4 = new IOtask1Block();
-					block4.blockNum = -4;
-					block4.nTargets=1;
-					block4.offloadCondition = Names.REMINDERS_MANDATORY_ANYCIRCLE;
+				IOtask1Block block4 = new IOtask1Block();
+				block4.blockNum = -4;
+				block4.nTargets=1;
+				block4.offloadCondition = Names.REMINDERS_MANDATORY_ANYCIRCLE;
 					
-					block4.Run();
-				} else {
-					SequenceHandler.Next();
-				}
+				block4.Run();
 				break;
 			case 15:
 				ClickPage.Run(Instructions.Get(8), "Next");
 				break;
-			case 16:
+			case 1:
 				ProgressBar.Initialise();
 				ProgressBar.Show();
 				ProgressBar.SetProgress(0, 60);
 				
 				IOtask1Block block5 = new IOtask1Block();
-				block5.nTrials = 30;
-				
-				for (int i=0; i < 15; i++) {
-					block5.targetList.add(1);
-					block5.targetList.add(3);
-				}
-				
+				block5.nTrials = 60;
+				block5.blockNum = 5;
 				block5.incrementProgress = true;
 				block5.thoughtProbe = true;
-				
-				if (Counterbalance.getFactorLevel("offloadOrder")==ExtraNames.INTERNAL_FIRST) {
-					block5.blockNum = 1;
-					block5.offloadCondition = Names.REMINDERS_NOTALLOWED;
-				}
-				
-				if (Counterbalance.getFactorLevel("offloadOrder")==ExtraNames.EXTERNAL_FIRST) {
-					block5.blockNum = 2;
-					block5.offloadCondition = Names.REMINDERS_MANDATORY_ANYCIRCLE;
-				}
-				
-				if (Counterbalance.getFactorLevel("probeTrialOrder")==0) {
-					block5.thoughtProbeTrials = new int[]{3, 7, 10, 15, 18, 22, 25, 28};
-				} else {
-					block5.thoughtProbeTrials = new int[]{1, 5, 8, 13, 16, 20, 24, 29};
-				}
-				
 				block5.countdownTimer = true;
+				
+				block5.targetShuffle = false;
+				block5.offloadConditionShuffle = false;
+				
+				block5.thoughtProbeTrials = new int[]{2, 6, 9, 14, 17, 21, 24, 27, 30, 34, 37, 42, 45, 49, 53, 58};
+				
+				//set up random ordering of thought probe trials
+				List<Integer> probeOrder = new ArrayList<Integer>(block5.thoughtProbeTrials.length);
+				
+				for (int i = 0; i < block5.thoughtProbeTrials.length; i++) {
+					probeOrder.add(i);
+				}
+				Collections.shuffle(probeOrder);
+				
+				//now set up random ordering of remaining trials
+				List<Integer> nonProbeOrder = new ArrayList<Integer>(block5.nTrials-block5.thoughtProbeTrials.length);
+				
+				for (int i = 0; i < block5.nTrials; i++) {
+					if (!probeOrder.contains(i)) {
+						nonProbeOrder.add(i);
+					}
+				}
+				Collections.shuffle(nonProbeOrder);
+				
+				//now assign conditions
+				int[] targetSequence = new int[block5.nTrials];
+				int[] offloadSequence = new int[block5.nTrials];
+				
+				//start with probe trials
+				offloadSequence[probeOrder.get(0)]=Names.REMINDERS_NOTALLOWED;
+				offloadSequence[probeOrder.get(1)]=Names.REMINDERS_NOTALLOWED;
+				offloadSequence[probeOrder.get(2)]=Names.REMINDERS_NOTALLOWED;
+				offloadSequence[probeOrder.get(3)]=Names.REMINDERS_NOTALLOWED;
+				offloadSequence[probeOrder.get(4)]=Names.REMINDERS_NOTALLOWED;
+				offloadSequence[probeOrder.get(5)]=Names.REMINDERS_NOTALLOWED;
+				offloadSequence[probeOrder.get(6)]=Names.REMINDERS_NOTALLOWED;
+				offloadSequence[probeOrder.get(7)]=Names.REMINDERS_NOTALLOWED;
+				offloadSequence[probeOrder.get(8)]=Names.REMINDERS_MANDATORY_ANYCIRCLE;
+				offloadSequence[probeOrder.get(9)]=Names.REMINDERS_MANDATORY_ANYCIRCLE;
+				offloadSequence[probeOrder.get(10)]=Names.REMINDERS_MANDATORY_ANYCIRCLE;
+				offloadSequence[probeOrder.get(11)]=Names.REMINDERS_MANDATORY_ANYCIRCLE;
+				offloadSequence[probeOrder.get(12)]=Names.REMINDERS_MANDATORY_ANYCIRCLE;
+				offloadSequence[probeOrder.get(13)]=Names.REMINDERS_MANDATORY_ANYCIRCLE;
+				offloadSequence[probeOrder.get(14)]=Names.REMINDERS_MANDATORY_ANYCIRCLE;
+				offloadSequence[probeOrder.get(15)]=Names.REMINDERS_MANDATORY_ANYCIRCLE;
+				
+				targetSequence[probeOrder.get(0)]=1;
+				targetSequence[probeOrder.get(1)]=1;
+				targetSequence[probeOrder.get(2)]=1;
+				targetSequence[probeOrder.get(3)]=1;
+				targetSequence[probeOrder.get(4)]=3;
+				targetSequence[probeOrder.get(5)]=3;
+				targetSequence[probeOrder.get(6)]=3;
+				targetSequence[probeOrder.get(7)]=3;
+				targetSequence[probeOrder.get(8)]=1;
+				targetSequence[probeOrder.get(9)]=1;
+				targetSequence[probeOrder.get(10)]=1;
+				targetSequence[probeOrder.get(11)]=1;
+				targetSequence[probeOrder.get(12)]=3;
+				targetSequence[probeOrder.get(13)]=3;
+				targetSequence[probeOrder.get(14)]=3;
+				targetSequence[probeOrder.get(15)]=3;
+				
+				//now do the non-probe trials
+				for (int i=0; i<11; i++) {
+					offloadSequence[nonProbeOrder.get(i)]=Names.REMINDERS_NOTALLOWED;
+					targetSequence[nonProbeOrder.get(i)]=1;
+				}
+				
+				for (int i=11; i<22; i++) {
+					offloadSequence[nonProbeOrder.get(i)]=Names.REMINDERS_NOTALLOWED;
+					targetSequence[nonProbeOrder.get(i)]=3;
+				}
+				
+				for (int i=22; i<33; i++) {
+					offloadSequence[nonProbeOrder.get(i)]=Names.REMINDERS_MANDATORY_ANYCIRCLE;
+					targetSequence[nonProbeOrder.get(i)]=1;
+				}
+				
+				for (int i=33; i<44; i++) {
+					offloadSequence[nonProbeOrder.get(i)]=Names.REMINDERS_MANDATORY_ANYCIRCLE;
+					targetSequence[nonProbeOrder.get(i)]=3;
+				}
+				
+				//now add the conditions
+				for (int i = 0; i < block5.nTrials; i++) {
+					block5.offloadConditionList.add(offloadSequence[i]);
+					block5.targetList.add(targetSequence[i]);
+				}
+
+				Window.alert("o: " + offloadSequence);
+				Window.alert("t: " + targetSequence);
+				
 				block5.Run();
 				break;
 			case 17:
-				if (Counterbalance.getFactorLevel("offloadOrder")==ExtraNames.INTERNAL_FIRST) {
-					ClickPage.Run(Instructions.Get(7),  "Next");
-				} else {
-					SequenceHandler.Next();
-				}
-				break;
-			case 18:
-				if (Counterbalance.getFactorLevel("offloadOrder")==ExtraNames.INTERNAL_FIRST) {
-					IOtask1Block block6 = new IOtask1Block();
-					block6.blockNum = -6;
-					block6.nTargets = 1;
-					block6.offloadCondition = Names.REMINDERS_MANDATORY_ANYCIRCLE;
-					block6.Run();
-				} else {
-					SequenceHandler.Next();
-				}
-				break;
-			case 19:
-				if (Counterbalance.getFactorLevel("offloadOrder")==ExtraNames.INTERNAL_FIRST) {
-					ClickPage.Run(Instructions.Get(10),  "Next");
-				} else {
-					ClickPage.Run(Instructions.Get(9),  "Next");
-				}
-				break;
-			case 20:
-				IOtask1Block block7 = new IOtask1Block();
-				block7.nTargets = ExtraNames.nTargets;
-				block7.nTrials = 30;
-				
-				for (int i=0; i < 15; i++) {
-					block7.targetList.add(1);
-					block7.targetList.add(3);
-				}
-				
-				block7.incrementProgress = true;
-				block7.thoughtProbe = true;
-				
-				if (Counterbalance.getFactorLevel("offloadOrder")==ExtraNames.INTERNAL_FIRST) {
-					block7.blockNum = 2;
-					block7.offloadCondition = Names.REMINDERS_MANDATORY_ANYCIRCLE;
-				}
-				
-				if (Counterbalance.getFactorLevel("offloadOrder")==ExtraNames.EXTERNAL_FIRST) {
-					block7.blockNum = 1;
-					block7.offloadCondition = Names.REMINDERS_NOTALLOWED;
-				}
-				
-				if (Counterbalance.getFactorLevel("probeTrialOrder")==1) {
-					block7.thoughtProbeTrials = new int[]{3, 7, 10, 15, 18, 22, 25, 28};
-				} else {	
-					block7.thoughtProbeTrials = new int[]{1, 5, 8, 13, 16, 20, 24, 29};
-				}
-				
-				block7.countdownTimer = true;
-				block7.Run();
-				break;
-			case 21:
 				ProgressBar.Hide();
 				
 				// log data and check that it saves
@@ -276,8 +288,6 @@ public class SequenceHandler {
 				data = data + SessionInfo.participantID + ",";
 				data = data + SessionInfo.gender + ",";
 				data = data + SessionInfo.age + ",";
-				data = data + Counterbalance.getFactorLevel("offloadOrder") + ",";
-				data = data + Counterbalance.getFactorLevel("probeTrialOrder") + ",";
 				data = data + Counterbalance.getFactorLevel("probeOptionArrangement1") + ",";
 				data = data + Counterbalance.getFactorLevel("probeOptionArrangement2");
 

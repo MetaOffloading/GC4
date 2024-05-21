@@ -16,6 +16,10 @@ public class IOtask1BlockContext {
 	public static IOtask1Block getContext() {
 		return (blockContext);
 	}
+	
+	public static void setNtargets(int nTargets) {
+		blockContext.nTargets = nTargets;
+	}
 
 	// use these methods to set and find out the currently clicked circle, and check
 	// offloading status
@@ -36,6 +40,11 @@ public class IOtask1BlockContext {
 			}
 		}
 	}
+	
+	public static void setOffloadCondition(int offloadCondition) {
+		blockContext.offloadCondition = offloadCondition;
+	}
+	
 
 	public static boolean allOffloaded() {
 		// automatically return true if reminders are not mandatory

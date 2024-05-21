@@ -1,9 +1,6 @@
 package com.sam.webtasks.client;
 
 public class ExtraNames {
-	//memory load
-	public static int nTargets;
-	
 	//condition order
 	public final static int INTERNAL_FIRST=0;
 	public final static int EXTERNAL_FIRST=1;

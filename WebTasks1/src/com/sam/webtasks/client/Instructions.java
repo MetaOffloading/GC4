@@ -83,35 +83,23 @@ public class Instructions {
 					+ "what to do. Please now try using this strategy to help with the task. ";
 			break;
 		case 8:
+			i="The main part of the experiment will start in a moment. Sometimes you will be told that you <b>must</b> set "
+					+ "reminders to help you remember the special circles. On these trials, you will need to set reminders "
+					+ "by dragging the special circles to their instucted side of the box at the beginning. The computer will "
+					+ "make sure that you do this before you can continue the task.<br><br>"
+					+ "On other trials, you will be told that you <b>cannot</b> set reminders. On these trials, you will have "
+					+ "to use your own memory and the computer will not let you create reminders.";
+			break;
+		case 9:
 			i="Now the task will start for real. You should try to complete the rest of the experiment "
 					+ "in one session and avoid performing any other tasks with your computer.<br><br>"
 					+ "Any time you get a question about whether "
 					+ "your attention drifted to the task, please answer as accurately as possible and "
 					+ "then the computer will automatically skip forward to the next trial.<br><br>"
 					+ "You will see a countdown timer at the top of the screen. Please try to complete "
-					+ "each trial before the time runs out.<br><br>";
-			
-			if (Counterbalance.getFactorLevel("offloadOrder") == ExtraNames.EXTERNAL_FIRST) {
-				i = i + "You should continue setting reminders by dragging "
-					  + "the instructed circles to the edge at the start of each trial.";
-			}				
-			break;
-		case 9:
-			i="From now on, you will not be able to set reminders any more. For the rest of "
-					+ "the experiment, please just use your memory "
-					+ "to remember the special circles.";
+					+ "each trial before the time runs out.<br><br>";				
 			break;
 		case 10:
-			i = "From now on you should continue setting reminders by dragging the instructed circles "
-					+ "to the edge at the start of each trial.";
-			break;
-		case 11:
-			/*
-			i = "You have now completed the experiment.<br><br>"
-					+ "Please enter the following completion code on the Mechanical Turk website to claim your "
-					+ "reward:<br><br><b>" + SessionInfo.rewardCode + "</b>"; 
-					*/
-			
 			i = "You have now completed the experiment. "
 					+ "Please click on the link below to complete the experiment and receive payment via Prolific:<br><br>"
 					+ "<b><a href=\"https://app.prolific.com/submissions/complete?cc=C1IVJN00\">"

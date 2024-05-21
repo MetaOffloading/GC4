@@ -22,6 +22,9 @@ public class IOtask1Block {
 	
 	//allow any circle to be moved?
 	public int offloadCondition=Names.REMINDERS_OPTIONAL;
+	
+	//display instruction about the offloading condition?
+	public boolean offloadInstruction = false;
 
 	//what block number is this? Useful to store alongside performance data
 	public int blockNum=1;      
@@ -59,6 +62,12 @@ public class IOtask1Block {
 	
 	//should the ordering of trials in the targetList be randomised?
 	public boolean targetShuffle = true;
+		
+	//we also create an analogous system to set the offload conditions
+	public ArrayList<Integer> offloadConditionList = new ArrayList<Integer>();
+	
+	public boolean offloadConditionShuffle = true;
+	
 	
 	//should we ask arithmetic questions?
 	public boolean askArithmetic = false;
@@ -86,6 +95,20 @@ public class IOtask1Block {
 					Collections.swap(targetList, i, Random.nextInt(targetList.size()));
 				}
 			}
+		}
+		
+		if (offloadConditionList.size() == 0) { //no list of offload conditions has been set up
+			for (int i = 0; i < nTrials; i++) {
+				//fill up the list with the offload condition defined by the offloadCondition variable
+				offloadConditionList.add(offloadCondition);
+			}
+		} else { //a specific set of offload conditions for each trial has been set up
+			if (offloadConditionShuffle) { //should they be presented in random order?
+				//shuffle list
+				for (int i = 0; i < offloadConditionList.size(); i++) {
+					Collections.swap(offloadConditionList,  i,  Random.nextInt(offloadConditionList.size()));
+				}
+			}			
 		}
 		
 		/*
