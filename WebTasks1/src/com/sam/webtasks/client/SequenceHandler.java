@@ -90,7 +90,7 @@ public class SequenceHandler {
 			/***********************************************************************
 			 * The code here defines the main sequence of events in the experiment *
 			 ********************************************************************/		
-			case 100:
+			case 1:
 				//ClickPage.Run(Instructions.Get(1),  "Next");
 				IOtask1Block block = new IOtask1Block();
 				block.nTrials=1;
@@ -173,7 +173,7 @@ public class SequenceHandler {
 			case 15:
 				ClickPage.Run(Instructions.Get(8), "Next");
 				break;
-			case 1:
+			case 16:
 				ProgressBar.Initialise();
 				ProgressBar.Show();
 				ProgressBar.SetProgress(0, 60);
@@ -187,6 +187,7 @@ public class SequenceHandler {
 				
 				block5.targetShuffle = false;
 				block5.offloadConditionShuffle = false;
+				block5.offloadInstruction = true;
 				
 				block5.thoughtProbeTrials = new int[]{2, 6, 9, 14, 17, 21, 24, 27, 30, 34, 37, 42, 45, 49, 53, 58};
 				
@@ -274,9 +275,6 @@ public class SequenceHandler {
 					block5.targetList.add(targetSequence[i]);
 				}
 
-				Window.alert("o: " + offloadSequence);
-				Window.alert("t: " + targetSequence);
-				
 				block5.Run();
 				break;
 			case 17:
