@@ -91,18 +91,7 @@ public class SequenceHandler {
 			 * The code here defines the main sequence of events in the experiment *
 			 ********************************************************************/		
 			case 1:
-				//ClickPage.Run(Instructions.Get(1),  "Next");
-				IOtask1Block block = new IOtask1Block();
-				block.nTrials=1;
-				
-				block.targetList.add(3);
-
-				block.offloadConditionList.add(Names.REMINDERS_MANDATORY_ANYCIRCLE);
-
-				block.offloadInstruction = true;
-				
-				block.Run();
-				
+				ClickPage.Run(Instructions.Get(1),  "Next");
 				break;
 			case 2:
 				IOtask1Block block1 = new IOtask1Block();
@@ -293,7 +282,7 @@ public class SequenceHandler {
 				PHP.logData("finish", data, true);
 				break;
 			case 22:
-				ClickPage.Run(Instructions.Get(11), "nobutton");
+				ClickPage.Run(Instructions.Get(10), "nobutton");
 				break;
 			}
 			break;
