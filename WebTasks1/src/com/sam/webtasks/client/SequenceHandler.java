@@ -184,8 +184,9 @@ public class SequenceHandler {
 				List<Integer> probeOrder = new ArrayList<Integer>(block5.thoughtProbeTrials.length);
 				
 				for (int i = 0; i < block5.thoughtProbeTrials.length; i++) {
-					probeOrder.add(i);
+					probeOrder.add(block5.thoughtProbeTrials[i]);
 				}
+				
 				Collections.shuffle(probeOrder);
 				
 				//now set up random ordering of remaining trials
@@ -263,6 +264,8 @@ public class SequenceHandler {
 					block5.offloadConditionList.add(offloadSequence[i]);
 					block5.targetList.add(targetSequence[i]);
 				}
+				
+				Window.alert("target: " + targetSequence);
 
 				block5.Run();
 				break;
@@ -281,7 +284,7 @@ public class SequenceHandler {
 				PHP.UpdateStatus("finished");
 				PHP.logData("finish", data, true);
 				break;
-			case 22:
+			case 18:
 				ClickPage.Run(Instructions.Get(10), "nobutton");
 				break;
 			}
@@ -360,8 +363,8 @@ public class SequenceHandler {
 				// first check if the block has ended. If so return control to the main sequence
 				// handler
 				IOtask1Block block = IOtask1BlockContext.getContext();
-
-				if (block.currentTrial == block.nTrials) {
+				
+				if (block.currentTrial == block.nTrials) { 
 					SequenceHandler.SetLoop(0, false);
 				}
 
